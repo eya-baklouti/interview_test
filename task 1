@@ -1,0 +1,16 @@
+import sqlite3
+
+
+connection = sqlite3.connect('transactions.db')
+cursor = connection.cursor()
+
+
+cursor.execute("""SELECT visitor_id , SUM(revenue) AS VisitorSumRevenue 
+                    FROM transactions 
+                    GROUP BY visitor_id 
+                    ORDER BY VisitorSumRevenue DESC 
+                    LIMIT 1 """)
+
+
+results2 = cursor.fetchall()
+print(results2)
