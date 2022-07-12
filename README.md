@@ -10,5 +10,35 @@ In this repositery you can find the solutions for tasks discribed in tasks.pdf e
 1. starting from scratch and want to use Postgres instead of sqlite but this would be time consuming and not practical 
 2. We have an already populated sqliteDB so we need only need to migrate it to Postgres.
 
-Adopting the second approach i used [this tutorial](https://www.enterprisedb.com/postgresql-tutorial-resources-training?uuid=db55e32d-e9f0-4d7c-9aef-b17d01210704&campaignId=7012J000001NhszQAC)
+To implement the second approach i used [this tutorial](https://www.enterprisedb.com/postgresql-tutorial-resources-training?uuid=db55e32d-e9f0-4d7c-9aef-b17d01210704&campaignId=7012J000001NhszQAC)
+
+After creating a Django project and install Postgres
+
+ Backup existing Database 
+ ```python manage.py dumpdata > data.json```
+ 
+ Configure settings.py file
+  ```
+  DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'test',
+        'USER': 'postgres',
+        'PASSWORD': '123456789',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+```
+Install psycopg2 adapter 
+```pip install psycopg2```
+
+we migrate the database 
+```python manage.py migrate --run-syncdb```
+
+we load the data 
+```python manage.py loaddata data.json```
+
+This command dumps our previous data from SQlite into postgres.
+
 
