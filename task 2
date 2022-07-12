@@ -19,4 +19,4 @@ results2 = cursor.fetchall()
 
 
 
-print("the day in which we had the most revenue from users who ordered via a mobile phone was  ",results2)
+print(results2)
