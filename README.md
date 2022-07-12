@@ -9,7 +9,7 @@ The file ```requirements.txt``` contains the required Python packages for the ta
 
 
 - Task 5 : There is two approaches :
-1. starting from scratch and want to use Postgres instead of sqlite , I wrote the modification that should happen in a comment in tasks files.
+1. starting from scratch and want to use Postgres instead of sqlite , I wrote the modifications that should be added in a comment in tasks files.
 2. We have an already populated sqliteDB so we need only need to migrate it to Postgres.
 
 To implement the second approach i would use [this tutorial](https://www.enterprisedb.com/postgresql-tutorial-resources-training?uuid=db55e32d-e9f0-4d7c-9aef-b17d01210704&campaignId=7012J000001NhszQAC)
