@@ -1,0 +1,19 @@
+import sqlite3
+
+
+connection = sqlite3.connect('transactions.db')
+cursor = connection.cursor()
+
+#Mobile phone is associated to device_type 3 
+cursor.execute("""SELECT datetime, SUM(revenue) AS DailyMobileAppRevenue, device_type   
+                    FROM transactions 
+                    WHERE device_type=3 
+                    GROUP BY datetime 
+                    ORDER BY DailyMobileAppRevenue DESC 
+                    LIMIT 1 """)
+results2 = cursor.fetchall()
+
+
+
+
+print("the day in which we had the most revenue from users who ordered via a mobile phone was  ",results2)

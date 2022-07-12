@@ -1,0 +1,25 @@
+import sqlite3
+import csv 
+
+connection = sqlite3.connect('transactions.db')
+cursor = connection.cursor()
+
+
+data = cursor.execute("""SELECT T.id, datetime, visitor_id, device_type, revenue, tax, device_name 
+                            FROM Transactions T 
+                            LEFT JOIN Devices D ON T.device_type = D.id""")
+
+results = cursor.fetchall()
+
+def save_file(results):
+    with open('task3.csv', 'w') as f:
+        writer = csv.writer(f)
+        writer.writerow(['id', 'datetime', 'visitor_id', 'device_type', 'revenue', 'tax', 'device_name'])
+        writer.writerows(results)
+    f.close()
+    
+#c csv file will be created saving the content of the table
+save_file(results)
+
+
+

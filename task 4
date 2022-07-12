@@ -1,0 +1,62 @@
+import sqlite3
+import xml.etree.ElementTree as ET
+
+connection = sqlite3.connect('transactions.db')
+cursor = connection.cursor()
+
+
+
+#we parse the xml file to extract the conversion rate from USD to EUR for each day and save them in a dic
+def extract_rate_date(f):
+  tree = ET.parse(f)
+  root = tree.getroot()
+  conv={}
+  for elem in root:
+      for subelem in elem:
+        t=str(subelem.attrib.get('time'))+' 00:00:00'
+        for subsubelem in subelem:
+            if subsubelem.get('currency')== "USD" :
+              r=subsubelem.get('rate')
+              conv[t]= r
+              break
+  return conv
+
+
+    
+
+#we create a conversion table 
+cursor.execute("""CREATE TABLE ConversionTable_USD_EUR(
+                          date  TEXT,
+                          rate REAL,
+                          PRIMARY KEY(date));""")
+results = cursor.fetchall()
+
+#we fill it with dic 
+def fill_table(ConvDic):
+  for v in ConvDic:
+    cursor.execute('''INSERT INTO ConversionTable_USD_EUR(date,rate) VALUES (?, ?)''',(v,float(ConvDic[v])))
+  results = cursor.fetchall()
+  return results
+
+
+conv=extract_rate_date("eurofxref-hist-90d.xml")
+fill_table(conv)
+
+#we use the conversion table to update the transaction table
+cursor.execute("""UPDATE Transactions 
+                  SET 
+                      revenue = rate*revenue
+                  FROM 
+                      ConversionTable_USD_EUR 
+                  WHERE
+                     Transactions.datetime = ConversionTable_USD_EUR.date
+                  """)
+
+
+
+
+# just to visualise the transaction table updated 
+cursor.execute("""SELECT *FROM Transactions T """)
+results = cursor.fetchall()
+print(results)
+
