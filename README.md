@@ -18,6 +18,16 @@ After creating a Django project and install Postgres
  ```python manage.py dumpdata > data.json```
  
  Configure settings.py file
+ we replace :
+  ```
+ DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+ ```
+with
   ```
   DATABASES = {
     'default': {
