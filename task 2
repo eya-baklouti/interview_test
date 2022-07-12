@@ -1,5 +1,8 @@
 import sqlite3
 
+#if we are going to use postgres
+#import psycopg2
+#connection = psycopg2.connect(database="postgres", user="postgres", password="123456789", host="127.0.0.1", port="5432") 
 
 connection = sqlite3.connect('transactions.db')
 cursor = connection.cursor()
